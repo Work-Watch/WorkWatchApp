@@ -47,6 +47,6 @@ fun MainView(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     WorkWatchAppTheme {
-        MainView("Caca")
+        MainView("Android")
     }
 }
