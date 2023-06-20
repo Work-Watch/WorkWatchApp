@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.BottomAppBar
@@ -38,9 +37,7 @@ class BossUI : ComponentActivity() {
         setContent {
             WorkWatchAppTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-
-                ) {
+                Surface{
 
                 }
             }
