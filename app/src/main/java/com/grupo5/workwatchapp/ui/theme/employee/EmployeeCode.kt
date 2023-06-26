@@ -43,7 +43,7 @@ fun EmployeeCode(modifier: Modifier = Modifier){
 
         Text(text = stringResource(id = R.string.enter_code),
             style = MaterialTheme.typography.titleLarge,
-            color = colorResource(id = R.color.tertiaryColor)
+            color = colorResource(id = R.color.aqua_clear_custom)
         )
 
         Row() {
@@ -73,7 +73,7 @@ fun EmployeeCode(modifier: Modifier = Modifier){
         }
 
         Button(onClick = { /*TODO*/ },
-            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.tertiaryColor)),
+            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.aqua_dark_custom)),
             modifier = Modifier
                 .padding(
                     top = dimensionResource(id = R.dimen.common_padding_default),
