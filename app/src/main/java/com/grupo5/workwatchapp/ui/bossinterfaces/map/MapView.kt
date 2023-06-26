@@ -1,4 +1,4 @@
-package com.grupo5.workwatchapp.ui.BossInterfaces.Map
+package com.grupo5.workwatchapp.ui.bossinterfaces.map
 
 import android.os.Bundle
 import android.os.PersistableBundle

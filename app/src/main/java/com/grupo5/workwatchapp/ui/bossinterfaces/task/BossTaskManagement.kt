@@ -1,4 +1,4 @@
-package com.grupo5.workwatchapp.ui.BossInterfaces.Task
+package com.grupo5.workwatchapp.ui.bossinterfaces.task
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -37,8 +37,7 @@ class BossTaskManagement : ComponentActivity(){
 }
 
 @Composable
-fun bossTasksView(){
-
+fun BossTasksView(){
     Column(Modifier.padding(16.dp)){
         Box(
             Modifier
@@ -64,7 +63,7 @@ fun bossTasksView(){
             en compose para usar "taskCardView()" de manera
             recursiva") */
         
-        taskCardView()
+        TaskCardView()
 
     }
 
@@ -72,8 +71,8 @@ fun bossTasksView(){
 
 @Preview(showSystemUi = true)
 @Composable
-fun taskViewPreview(){
+fun TaskViewPreview(){
     WorkWatchAppTheme {
-        bossTasksView()
+        BossTasksView()
     }
 }

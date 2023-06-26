@@ -1,4 +1,4 @@
-package com.grupo5.workwatchapp.ui.BossInterfaces.Timeline
+package com.grupo5.workwatchapp.ui.bossinterfaces.timeline
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
@@ -119,7 +118,7 @@ fun LineConnector() {
 
 @Preview(showSystemUi = true)
 @Composable
-fun timeLinePreview(){
+fun TimeLinePreview(){
     WorkWatchAppTheme {
         TimelineScreen()
     }

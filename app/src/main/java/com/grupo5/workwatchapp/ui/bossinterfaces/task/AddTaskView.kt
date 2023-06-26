@@ -1,4 +1,4 @@
-package com.grupo5.workwatchapp.ui.BossInterfaces.Task
+package com.grupo5.workwatchapp.ui.bossinterfaces.task
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -23,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -45,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import com.grupo5.workwatchapp.R
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
-class AddTaskView : ComponentActivity(){
+class addTaskView : ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         setContent{
@@ -58,9 +59,9 @@ class AddTaskView : ComponentActivity(){
         }
     }
 }
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun addTaskView(){
+fun AddTaskView(){
 
     // Header
     Column(modifier = Modifier.fillMaxSize()){
@@ -188,9 +189,9 @@ fun addTaskView(){
 
 @Preview(showSystemUi = true)
 @Composable
-fun addTaskViewPreview(){
+fun AddTaskViewPreview(){
     WorkWatchAppTheme {
-        addTaskView()
+        AddTaskView()
 
     }
 }
