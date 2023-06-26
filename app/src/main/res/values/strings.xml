@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">WorkWatchApp</string>
+    <string name="enter_your_data"> Enter your data</string>
+    <string name="enter_name">Name</string>
+    <string name="last_name">Last name</string>
+
+    <string name="enter_email">Email</string>
+    <string name="enter_prise_name">Company name</string>
+    <string name="phone_number">Phone number: 1010-9999</string>
+    <string name="full_name">Full name</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="enter_code">Enter your code</string>
+
 </resources>
