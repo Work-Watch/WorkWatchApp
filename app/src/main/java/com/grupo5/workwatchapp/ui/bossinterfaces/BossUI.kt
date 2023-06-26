@@ -1,4 +1,4 @@
-package com.grupo5.workwatchapp
+package com.grupo5.workwatchapp.ui.bossinterfaces
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -8,9 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -60,7 +61,7 @@ fun BossHomeView() {
                     NavigationBar {
                         items.forEachIndexed { index, item ->
                             NavigationBarItem(
-                                icon = { Icon(Icons.Filled.Home, contentDescription = item) },
+                                icon = { Icon(Icons.Filled.LocationOn, contentDescription = item) },
                                 label = { Text("Map") },
                                 selected = selectedItem == index,
                                 onClick = { selectedItem = index}
@@ -68,7 +69,7 @@ fun BossHomeView() {
                         }
                         items.forEachIndexed { index, item ->
                             NavigationBarItem(
-                                icon = { Icon(Icons.Filled.Add, contentDescription = item) },
+                                icon = { Icon(Icons.Outlined.CheckCircle, contentDescription = item) },
                                 label = { Text("Task") },
                                 selected = selectedItem == index,
                                 onClick = { selectedItem = index}
@@ -76,7 +77,7 @@ fun BossHomeView() {
                         }
                         items.forEachIndexed { index, item ->
                             NavigationBarItem(
-                                icon = { Icon(Icons.Filled.Menu, contentDescription = item) },
+                                icon = { Icon(Icons.Filled.DateRange, contentDescription = item) },
                                 label = { Text("Timeline") },
                                 selected = selectedItem == index,
                                 onClick = { selectedItem = index}
@@ -88,7 +89,9 @@ fun BossHomeView() {
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)){
-            /*TODO("Aqui tiene que ir el google maps")*/
+            Box() {
+                /*TODO("Aqui tiene que ir el google maps")*/
+            }
             Box(modifier = Modifier.fillMaxSize() ,
                 contentAlignment = Alignment.BottomEnd) {
                 FloatingActionButton(
