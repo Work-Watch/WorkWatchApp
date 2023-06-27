@@ -1,9 +1,6 @@
 package com.grupo5.workwatchapp.ui.bossinterfaces.task
 
-import android.os.Bundle
-import android.os.PersistableBundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,10 +15,8 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,86 +24,88 @@ import androidx.compose.ui.unit.dp
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 
-class TaskCard : ComponentActivity(){
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContent {
-            WorkWatchAppTheme{
-                Surface{
-                    TaskCardView()
-                }
-
-            }
-        }
-    }
-}
-
 // This is the component for each team task card
 @Composable
 fun TaskCardView() {
     Box(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp)
-        .wrapContentSize(Alignment.TopCenter)
-    ){
+        .wrapContentSize()){
         Card(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+            Modifier
+                .fillMaxWidth()
+                ) {
             // Card content
-            Column() {
-
-            }
-            Icon(
-                imageVector = Icons.Filled.Close,
-                contentDescription = "Localized description",
-                Modifier.padding(8.dp)
-            )
-            Row {
-                Text(text = "Task:",
-                Modifier.padding(8.dp))
-                Text(text = "Description of the task",
-                Modifier.padding(8.dp))
-            }
-            Row {
-                Text(text = "Team:",
-                    Modifier.padding(8.dp))
-                Text(text = "Team ID",
-                    Modifier.padding(8.dp))
-            }
-            Row {
-                Text(text = "Location:",
-                    Modifier.padding(8.dp))
-                Text(text = "Address of the place",
-                    Modifier.padding(8.dp))
-            }
-            Row {
-                Text(text = "Status:",
-                    Modifier.padding(8.dp))
-                Text(text = "Active or inactive",
-                    Modifier.padding(8.dp))
-            }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                horizontalArrangement = Arrangement.End) {
+            Column(modifier = Modifier
+                .background(color = Color.LightGray)) {
                 Icon(
-                    imageVector = Icons.Filled.Edit,
-                    contentDescription = "Edit task action",
-                    tint = Color(android.graphics.Color.parseColor("#58AFB8")),
-                    modifier = Modifier
-                        .padding(end = 8.dp)
-                        .size(26.dp)
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = "Localized description",
+                    Modifier.padding(8.dp)
                 )
-                Icon(
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = "Delete task action",
-                    tint = Color(android.graphics.Color.parseColor("#EC225E")),
-                    modifier = Modifier
-                        .padding(end = 8.dp)
-                        .size(26.dp)
-                )
+                Row {
+                    Text(
+                        text = "Task:",
+                        Modifier.padding(8.dp)
+                    )
+                    Text(
+                        text = "Description of the task",
+                        Modifier.padding(8.dp)
+                    )
+                }
+                Row {
+                    Text(
+                        text = "Team:",
+                        Modifier.padding(8.dp)
+                    )
+                    Text(
+                        text = "Team ID",
+                        Modifier.padding(8.dp)
+                    )
+                }
+                Row {
+                    Text(
+                        text = "Location:",
+                        Modifier.padding(8.dp)
+                    )
+                    Text(
+                        text = "Address of the place",
+                        Modifier.padding(8.dp)
+                    )
+                }
+                Row {
+                    Text(
+                        text = "Status:",
+                        Modifier.padding(8.dp)
+                    )
+                    Text(
+                        text = "Active or inactive",
+                        Modifier.padding(8.dp)
+                    )
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Edit,
+                        contentDescription = "Edit task action",
+                        tint = Color(android.graphics.Color.parseColor("#58AFB8")),
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(26.dp)
+                    )
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Delete task action",
+                        tint = Color(android.graphics.Color.parseColor("#EC225E")),
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(26.dp)
+                    )
+                }
             }
         }
     }
@@ -119,7 +116,7 @@ fun TaskCardView() {
 
 @Preview(showSystemUi = true)
 @Composable
-fun TaskCardViewPreview(){
+fun taskCardViewPreview(){
     WorkWatchAppTheme {
         TaskCardView()
         

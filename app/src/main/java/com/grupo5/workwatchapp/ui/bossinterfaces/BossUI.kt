@@ -30,28 +30,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
-class BossUI : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContent {
-            WorkWatchAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface{
-
-                }
-            }
-
-        }
+@Composable
+fun BossHomeView() {
+    val navController = rememberNavController()
+    Scaffold(
+        bottomBar = {}
+    ) {
+        BottomNavGraph(navController = navController)
     }
 }
 
+@Composable 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showSystemUi = true)
 @Composable
-fun BossHomeView() {
-    Scaffold(
+fun NavigationBarPreview() {
+    WorkWatchAppTheme {
+        BossHomeView()
+
+    }
+}
+
+/*Scaffold(
         bottomBar = {
             BottomAppBar {
                 Box(modifier = Modifier.fillMaxSize(),
@@ -102,56 +105,4 @@ fun BossHomeView() {
                 }
             }
         }
-    }
-
-    /*  Box(modifier = Modifier)
-      Box(modifier = Modifier ,
-      contentAlignment = Alignment.BottomEnd) {
-          FloatingActionButton(
-              onClick = { /* do something */ }
-          ) {
-              Icon(Icons.Filled.Menu, "Localized description")
-          }
-      }
-      Box(modifier = Modifier.fillMaxSize(),
-          contentAlignment = Alignment.BottomCenter){
-          var selectedItem by remember { mutableStateOf(0) }
-          val items = listOf("Home")
-          NavigationBar {
-              items.forEachIndexed { index, item ->
-                  NavigationBarItem(
-                      icon = { Icon(Icons.Filled.Home, contentDescription = item) },
-                      label = { Text("Home") },
-                      selected = selectedItem == index,
-                      onClick = { selectedItem = index}
-                  )
-              }
-              items.forEachIndexed { index, item ->
-                  NavigationBarItem(
-                      icon = { Icon(Icons.Filled.Add, contentDescription = item) },
-                      label = { Text("Home") },
-                      selected = selectedItem == index,
-                      onClick = { selectedItem = index}
-                  )
-              }
-              items.forEachIndexed { index, item ->
-                  NavigationBarItem(
-                      icon = { Icon(Icons.Filled.Menu, contentDescription = item) },
-                      label = { Text("Home") },
-                      selected = selectedItem == index,
-                      onClick = { selectedItem = index}
-                  )
-              }
-          }
-      }
-  */
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun NavigationBarPreview() {
-    WorkWatchAppTheme {
-        BossHomeView()
-
-    }
-}
+    }*/
