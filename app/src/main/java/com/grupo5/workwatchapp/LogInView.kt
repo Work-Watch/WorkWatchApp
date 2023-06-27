@@ -30,6 +30,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.grupo5.workwatchapp.R.drawable.logo_de_vivo_mesa_de_trabajo_1
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
@@ -58,8 +59,8 @@ fun LogInView(/*user: String, password: String*/) {
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painter = painterResource(id = R.drawable.logo_de_vivo_mesa_de_trabajo_1),
-            contentDescription = null,)
+        Image(painter = painterResource(id = logo_de_vivo_mesa_de_trabajo_1),
+            contentDescription = null)
         Box(Modifier.padding(8.dp)){
             OutlinedTextField(value = "User",
                 onValueChange = {},
@@ -90,7 +91,6 @@ fun LogInView(/*user: String, password: String*/) {
                 color = colorResource(id = R.color.red_cherry_custom)
             )
         }
-
     }
 }
 
