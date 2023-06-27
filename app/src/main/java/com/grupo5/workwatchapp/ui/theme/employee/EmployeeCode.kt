@@ -17,6 +17,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -27,6 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.grupo5.workwatchapp.R
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
+import kotlin.reflect.KProperty
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -47,11 +53,38 @@ fun EmployeeCode(modifier: Modifier = Modifier){
         )
 
         Row() {
-            OutlinedTextField(value = "", onValueChange = {},
+
+            var firstNumber by remember{
+                mutableStateOf("")
+            }
+
+            var secondNumber by remember {
+                mutableStateOf("")
+            }
+
+            var threeNumber by remember {
+                mutableStateOf("")
+            }
+
+            var fourthNumber by remember {
+                mutableStateOf("")
+            }
+
+            var fifthNumber by remember {
+                mutableStateOf("")
+            }
+
+            var sixthNumber by remember {
+                mutableStateOf("")
+            }
+
+            OutlinedTextField(value = firstNumber, onValueChange = {firstNumber = it},
                 modifier = Modifier.size(50.dp)
             )
 
-            OutlinedTextField(value = "", onValueChange = {},
+
+
+            OutlinedTextField(value = secondNumber, onValueChange = {},
                 modifier = Modifier.size(50.dp)
             )
 
@@ -87,3 +120,5 @@ fun EmployeeCode(modifier: Modifier = Modifier){
 
     }
 }
+
+
