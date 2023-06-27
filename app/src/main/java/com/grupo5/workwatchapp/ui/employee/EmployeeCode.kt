@@ -1,4 +1,4 @@
-package com.grupo5.workwatchapp.ui.theme.employee
+package com.grupo5.workwatchapp.ui.employee
 
 
 import androidx.compose.foundation.Image
