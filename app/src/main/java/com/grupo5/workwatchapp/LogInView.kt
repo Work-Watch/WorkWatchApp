@@ -91,7 +91,6 @@ fun LogInView(/*user: String, password: String*/) {
                 color = colorResource(id = R.color.red_cherry_custom)
             )
         }
-
     }
 }
 
