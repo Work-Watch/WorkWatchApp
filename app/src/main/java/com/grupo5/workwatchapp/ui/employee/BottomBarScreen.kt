@@ -1,8 +1,8 @@
-package com.grupo5.workwatchapp.ui.bossinterfaces
+package com.grupo5.workwatchapp.ui.employee
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -24,7 +24,7 @@ sealed class BottomBarScreen(
     )
     object TimeLine : BottomBarScreen(
         route = "timeline",
-        title = "Time line",
-        icon = Icons.Default.Person
+        title = "Profile",
+        icon = Icons.Default.Face
     )
 }

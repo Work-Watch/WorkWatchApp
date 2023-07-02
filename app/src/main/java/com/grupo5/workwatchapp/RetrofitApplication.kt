@@ -3,26 +3,20 @@ package com.grupo5.workwatchapp
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.grupo5.workwatchapp.network.repository.AuthRepository
 import com.grupo5.workwatchapp.network.retrofit.RetrofitInstance
 
 class RetrofitApplication: Application() {
 
-    // store and retrieve data
-    private val prefs: SharedPreferences by lazy {
+    private val prefs: SharedPreferences by lazy{
         getSharedPreferences("Retrofit", Context.MODE_PRIVATE)
     }
 
-    private fun getApiService() = with(RetrofitInstance){
+    private fun getAPIService() = with(RetrofitInstance) {
         setToken(getToken())
-        getLoginService() //RetrofitInstance
+        getLoginService()
     }
 
     fun getToken(): String = prefs.getString(USER_TOKEN, "")!!
-
-    val authRepository: AuthRepository by lazy {
-        AuthRepository(getApiService())
-    }
 
     fun saveAuthToken(token: String) {
         val editor = prefs.edit()
@@ -30,7 +24,7 @@ class RetrofitApplication: Application() {
         editor.apply()
     }
 
-    companion object{
-        const val USER_TOKEN =  "user_token"
+    companion object {
+        const val USER_TOKEN = "user_token"
     }
 }
