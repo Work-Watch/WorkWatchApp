@@ -13,5 +13,7 @@
     <string name="repeat_password">Repeat password</string>
     <string name="enter_code">Enter your code</string>
     <string name="send_code">Send code</string>
+    <string name="teams">Teams</string>
+    <string name="teams_search">Search Teams</string>
 
 </resources>
