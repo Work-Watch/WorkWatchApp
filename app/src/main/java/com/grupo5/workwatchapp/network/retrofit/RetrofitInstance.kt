@@ -1,12 +1,16 @@
 package com.grupo5.workwatchapp.network.retrofit
 
 import com.grupo5.workwatchapp.network.service.AuthService
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+import okhttp3.logging.HttpLoggingInterceptor
 
 const val BASE_URL = "https://workwatch.live/"
 
 object RetrofitInstance {
+
     private var token = ""
 
     fun setToken(token: String){
@@ -18,7 +22,7 @@ object RetrofitInstance {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun getLoginService(): AuthService {
+    fun getLoginService(): AuthService{
         return retrofit.create(AuthService::class.java)
     }
 }

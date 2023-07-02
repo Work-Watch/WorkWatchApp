@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.android.gms.maps.GoogleMap
 import com.google.maps.android.compose.GoogleMap
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
