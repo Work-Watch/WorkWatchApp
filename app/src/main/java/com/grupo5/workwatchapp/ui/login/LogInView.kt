@@ -147,6 +147,7 @@ fun LoginButton(
         errorMessage?.let { result ->
             result.onSuccess {
                 val intent = Intent(context, BossUI::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 context.startActivity(intent)
             }
             result.onFailure { exception ->
