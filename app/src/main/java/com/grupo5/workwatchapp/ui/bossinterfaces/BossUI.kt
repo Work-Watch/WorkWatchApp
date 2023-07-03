@@ -45,12 +45,13 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.grupo5.workwatchapp.ui.recovery.Recovery
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
-class BossUI : ComponentActivity(){
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContent{
+class BossUI : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
             BossHomeView()
         }
     }
