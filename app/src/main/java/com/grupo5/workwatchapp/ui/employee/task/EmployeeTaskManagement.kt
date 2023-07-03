@@ -20,9 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grupo5.workwatchapp.R
+import com.grupo5.workwatchapp.ui.bossinterfaces.task.TaskCardView
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
-class BossTaskManagement : ComponentActivity(){
+class EmployeeTaskManagement : ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         setContent{
@@ -37,7 +38,7 @@ class BossTaskManagement : ComponentActivity(){
 }
 
 @Composable
-fun BossTasksView(){
+fun EmployeeTasksView(){
     Column(Modifier.padding(16.dp)){
         Box(
             Modifier
@@ -62,8 +63,8 @@ fun BossTasksView(){
 
 @Preview(showSystemUi = true)
 @Composable
-fun TaskViewPreview(){
+fun EmployeeTaskViewPreview(){
     WorkWatchAppTheme {
-        BossTasksView()
+        EmployeeTasksView()
     }
 }
