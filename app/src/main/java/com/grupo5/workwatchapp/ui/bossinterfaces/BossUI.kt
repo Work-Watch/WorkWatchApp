@@ -35,6 +35,7 @@ import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 class BossUI : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             BossHomeView()
         }

@@ -1,5 +1,6 @@
 package com.grupo5.workwatchapp.ui.login
 
+import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -33,17 +34,20 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupo5.workwatchapp.R
+import com.grupo5.workwatchapp.RetrofitApplication
 import com.grupo5.workwatchapp.ui.bossinterfaces.BossUI
 import com.grupo5.workwatchapp.ui.recovery.RecoveryAccount
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
-// Declaration of the LogIn composable
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LogInView(viewModel: LoginViewModel) {
+fun LogInView(viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)){
+
     val email: String by viewModel.email.observeAsState(initial = "")
     val password: String by viewModel.password.observeAsState(initial = "")
+
     val context = LocalContext.current
 
     Column(
@@ -94,9 +98,7 @@ fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
 @Composable
 fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
 
-    var isPasswordVisible by remember {
-        mutableStateOf(false)
-    }
+    var isPasswordVisible by remember { mutableStateOf(false) }
 
     Box(Modifier.padding(8.dp)) {
         OutlinedTextField(
@@ -127,12 +129,14 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
 fun LoginButton(
     viewModel: LoginViewModel
 ) {
-    val errorMessage by viewModel.loginResult.observeAsState()
     val context = LocalContext.current
+    val app = remember(context) { context.applicationContext as RetrofitApplication }
+
+    val status by viewModel.status.observeAsState()
 
     Button(
         onClick = {
-            if (!viewModel.isValidate()) {
+            if (!viewModel.validateData()) {
                 Toast.makeText(context, "Empty fields", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.onLogin()
@@ -143,27 +147,36 @@ fun LoginButton(
         Text(text = "Login")
     }
 
-    LaunchedEffect(errorMessage) {
-        errorMessage?.let { result ->
-            result.onSuccess {
-                val intent = Intent(context, BossUI::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                context.startActivity(intent)
-            }
-            result.onFailure { exception ->
-                Toast.makeText(context, exception.message ?: "", Toast.LENGTH_SHORT).show()
+    LaunchedEffect(status) {
+        status?.let { status ->
+            when (status) {
+                is LoginUiStatus.Error -> {
+                    Toast.makeText(context, "An error has occurred", Toast.LENGTH_SHORT).show()
+                    viewModel.clearStatus()
+                }
+                is LoginUiStatus.ErrorWithMessage -> {
+                    Toast.makeText(context, status.message, Toast.LENGTH_SHORT).show()
+                    viewModel.clearStatus()
+                }
+                is LoginUiStatus.Success -> {
+                    viewModel.clearStatus()
+                    app.saveAuthToken(status.token)
+                    val intent = Intent(context, BossUI::class.java)
+                    context.startActivity(intent)
+                    (context as? Activity)?.finish()
+                }
+
+                else -> {}
             }
         }
     }
 }
 
-
-
 @Preview(showSystemUi = true)
 @Composable
 fun LogInPreview() {
-
     WorkWatchAppTheme {
-        LogInView(viewModel = LoginViewModel())
+        LogInView()
     }
 }
+
