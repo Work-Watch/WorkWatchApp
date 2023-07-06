@@ -64,14 +64,6 @@ fun EnterData(modifier: Modifier = Modifier){
         .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Box(modifier = Modifier.padding(top = 10.dp)) {
-
-            Button(onClick = { /*TODO*/ }) {
-                PathNode.MoveTo(24.)
-                Icon(painter = , contentDescription = )
-            }
-
             Text(
                 text = stringResource(id = R.string.create_account),
                 style =
