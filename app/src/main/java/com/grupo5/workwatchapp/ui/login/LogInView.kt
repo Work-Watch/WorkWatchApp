@@ -1,66 +1,67 @@
 package com.grupo5.workwatchapp.ui.login
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupo5.workwatchapp.R
-import com.grupo5.workwatchapp.ui.employee.EnterData
+import com.grupo5.workwatchapp.RetrofitApplication
+import com.grupo5.workwatchapp.ui.bossinterfaces.BossUI
+import com.grupo5.workwatchapp.ui.recovery.Recovery
+import com.grupo5.workwatchapp.ui.recovery.RecoveryAccount
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
-class LogIn : ComponentActivity() {
+
+class LogInView : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WorkWatchAppTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    NavigationScreen()
-                }
-            }
+            LogInView()
         }
     }
 }
-
-// Declaration of the LogIn composable
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LogInView(navController: NavController, viewModel: LoginViewModel) {
+fun LogInView(viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)){
+
     val email: String by viewModel.email.observeAsState(initial = "")
     val password: String by viewModel.password.observeAsState(initial = "")
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -75,22 +76,16 @@ fun LogInView(navController: NavController, viewModel: LoginViewModel) {
         PasswordField(password) { viewModel.onLoginChanged(email, it) }
 
         Column(Modifier.padding(8.dp)) {
-            Text(
-                text = "Forgot password?",
-                color = colorResource(R.color.aqua_clear_custom)
+            ClickableText(
+                text = AnnotatedString("Forgot password?"),
+                onClick = {
+                    val intent = Intent(context, RecoveryAccount::class.java)
+                    context.startActivity(intent)
+                }
             )
         }
 
-        LoginButton(navController = navController, viewModel = viewModel)
-
-        Button(
-            onClick = {
-                navController.navigate(ScreenLogin.Boss.route)
-            },
-            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.aqua_dark_custom))
-        ) {
-            Text(text = "Prueba")
-        }
+        LoginButton(viewModel = viewModel)
 
         Row() {
             Text(text = "Don't have an account?")
@@ -115,27 +110,46 @@ fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
 
 @Composable
 fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
+
+    var isPasswordVisible by remember { mutableStateOf(false) }
+
     Box(Modifier.padding(8.dp)) {
         OutlinedTextField(
             value = password,
             onValueChange = { onTextFieldChanged(it) },
-            label = { Text("Password") }
+            label = { Text("Password") },
+            visualTransformation =
+            if (isPasswordVisible)
+                VisualTransformation.None
+            else
+                PasswordVisualTransformation(),
+
+            trailingIcon = {
+                Icon(painter =
+                if (isPasswordVisible)
+                    painterResource(id = R.drawable.visibility_on)
+                else
+                    painterResource(id = R.drawable.visibility_off),
+                    contentDescription = null,
+                    modifier = Modifier.clickable { isPasswordVisible = !isPasswordVisible }
+                )
+            }
         )
     }
 }
 
 @Composable
 fun LoginButton(
-    navController: NavController,
     viewModel: LoginViewModel
 ) {
-    val errorMessage by viewModel.loginResult.observeAsState()
-
     val context = LocalContext.current
+    val app = remember(context) { context.applicationContext as RetrofitApplication }
+
+    val status by viewModel.status.observeAsState()
 
     Button(
         onClick = {
-            if (!viewModel.isValidate()) {
+            if (!viewModel.validateData()) {
                 Toast.makeText(context, "Empty fields", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.onLogin()
@@ -146,50 +160,36 @@ fun LoginButton(
         Text(text = "Login")
     }
 
-    LaunchedEffect(errorMessage) {
-        errorMessage?.let { result ->
-            result.onSuccess {
-                navController.navigate(ScreenLogin.Boss.route)
-            }
-            result.onFailure { exception ->
-                Toast.makeText(context, exception.message ?: "", Toast.LENGTH_SHORT).show()
+    LaunchedEffect(status) {
+        status?.let { status ->
+            when (status) {
+                is LoginUiStatus.Error -> {
+                    Toast.makeText(context, "An error has occurred", Toast.LENGTH_SHORT).show()
+                    viewModel.clearStatus()
+                }
+                is LoginUiStatus.ErrorWithMessage -> {
+                    Toast.makeText(context, status.message, Toast.LENGTH_SHORT).show()
+                    viewModel.clearStatus()
+                }
+                is LoginUiStatus.Success -> {
+                    viewModel.clearStatus()
+                    app.saveAuthToken(status.token)
+                    val intent = Intent(context, BossUI::class.java)
+                    context.startActivity(intent)
+                    (context as? Activity)?.finish()
+                }
+
+                else -> {}
             }
         }
     }
 }
-
-@Composable
-fun NavigationScreen() {
-    val viewModel = remember { LoginViewModel() }
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = ScreenLogin.Home.route
-    ) {
-        navigation(
-            route = ScreenLogin.Home.route,
-            startDestination = ScreenLogin.Home.route
-        ) {
-            composable(ScreenLogin.Home.route) {
-                LogInView(navController = navController, viewModel = viewModel)
-            }
-            composable(ScreenLogin.Boss.route) {
-                EnterData()
-            }
-        }
-    }
-}
-
 
 @Preview(showSystemUi = true)
 @Composable
 fun LogInPreview() {
-    val navController = rememberNavController()
-
     WorkWatchAppTheme {
-        LogInView(navController = navController, viewModel = LoginViewModel())
+        LogInView()
     }
 }
-
 

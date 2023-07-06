@@ -12,28 +12,29 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.grupo5.workwatchapp.RetrofitApplication
-import com.grupo5.workwatchapp.network.login.LoginRequest
+import com.grupo5.workwatchapp.network.ApiResponse
+import com.grupo5.workwatchapp.network.dto.login.LoginRequest
 import com.grupo5.workwatchapp.network.retrofit.RetrofitInstance
+import com.grupo5.workwatchapp.repository.AuthRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-class LoginViewModel(): ViewModel(){
+class LoginViewModel(private val repository: AuthRepository): ViewModel(){
 
     private val _email = MutableLiveData<String>()
     private val _password = MutableLiveData<String>()
 
-    val isSuccessLoading = mutableStateOf(value = false)
-
-    private val _loginResult = MutableLiveData<Result<Boolean>>()
-    val loginResult: LiveData<Result<Boolean>> = _loginResult
-
-    // so that the variable is modified only inside the view-model to avoid conflicts
     val email : LiveData<String> = _email
     val password : LiveData<String> = _password
 
+    private val _status = MutableLiveData<LoginUiStatus>(LoginUiStatus.Resume)
 
-    // function that modifies the text-field
+    val status: MutableLiveData<LoginUiStatus>
+        get() = _status
+
+    // so that the variable is modified only inside the view-model to avoid conflicts
+
     fun onLoginChanged(email: String, password: String){
         _email.value = email
         _password.value = password
@@ -42,26 +43,14 @@ class LoginViewModel(): ViewModel(){
     private fun login(email: String, password: String) {
 
         viewModelScope.launch {
-            try {
-                val response = RetrofitInstance.getLoginService().login(LoginRequest(email, password))
-
-                if (response.isSuccessful) {
-                    _loginResult.postValue(Result.success(true))
-                    response.body()?.let { token ->
-                        Log.d("Logging", "Response token: $token")
-                    }
-                } else {
-                    response.errorBody()?.let {
-                        Log.d("Error", "Error")
-                        _loginResult.postValue(Result.failure(Exception("Credentials invalid")))
-                    }
+            _status.postValue(
+                when ( val response = repository.login(email, password)) {
+                    is ApiResponse.Error -> LoginUiStatus.Error(response.exception)
+                    is ApiResponse.ErrorWithMessage -> LoginUiStatus.ErrorWithMessage(response.message)
+                    is ApiResponse.Success -> LoginUiStatus.Success(response.data)
                 }
-            } catch (e: HttpException) {
-                Log.d("Error", "Error: $e")
-                _loginResult.postValue(Result.failure(Exception("Error login: $e")))
-            }
+            )
         }
-
     }
 
     fun onLogin() {
@@ -70,19 +59,23 @@ class LoginViewModel(): ViewModel(){
 
     }
 
-    fun isValidate(): Boolean {
+    fun validateData(): Boolean {
         when {
-            _email.value.isNullOrEmpty() -> return false
-            _password.value.isNullOrEmpty() -> return false
+            email.value.isNullOrEmpty() -> return false
+            password.value.isNullOrEmpty() -> return false
         }
         return true
+    }
+
+    fun clearStatus() {
+        _status.value = LoginUiStatus.Resume
     }
 
     companion object {
         val Factory = viewModelFactory {
             initializer {
-                this[APPLICATION_KEY] as RetrofitApplication
-                LoginViewModel()
+                val app = this[APPLICATION_KEY] as RetrofitApplication
+                LoginViewModel(app.authRepository)
             }
         }
     }

@@ -22,8 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainView("Android")
-
+                    MainView()
                 }
             }
         }
@@ -31,7 +30,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainView(name: String, modifier: Modifier = Modifier) {
+fun MainView(/*name: String, modifier: Modifier = Modifier*/) {
     /*Column() {
         Text(
             text = "Hello $name!",
@@ -46,6 +45,6 @@ fun MainView(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     WorkWatchAppTheme {
-        MainView("Android")
+        MainView()
     }
 }

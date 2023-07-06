@@ -28,7 +28,7 @@ import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 // This is the component for each team task card
 @Composable
-fun TaskCardView() {
+fun EmployeeTaskCardView() {
     Box(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp)
@@ -110,9 +110,9 @@ fun TaskCardView() {
 
 @Preview(showSystemUi = true)
 @Composable
-fun taskCardViewPreview(){
+fun EmployeetaskCardViewPreview(){
     WorkWatchAppTheme {
-        TaskCardView()
+        EmployeeTaskCardView()
         
     }
 }

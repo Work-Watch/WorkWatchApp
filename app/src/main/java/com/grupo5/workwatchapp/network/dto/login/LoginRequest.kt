@@ -1,4 +1,4 @@
-package com.grupo5.workwatchapp.network.login
+package com.grupo5.workwatchapp.network.dto.login
 
 import com.google.gson.annotations.SerializedName
 
