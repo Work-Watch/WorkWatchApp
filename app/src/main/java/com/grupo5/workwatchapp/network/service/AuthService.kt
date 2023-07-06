@@ -2,6 +2,8 @@ package com.grupo5.workwatchapp.network.service
 
 import com.grupo5.workwatchapp.network.dto.login.LoginRequest
 import com.grupo5.workwatchapp.network.dto.login.LoginResponse
+import com.grupo5.workwatchapp.network.dto.register.RegisterRequest
+import com.grupo5.workwatchapp.network.dto.register.RegisterResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -10,5 +12,8 @@ interface AuthService {
 
     @POST("auth/login")
     suspend fun login(@Body credentials: LoginRequest): LoginResponse
+
+    @POST("auth/register")
+    suspend fun register(@Body credentials: RegisterRequest): RegisterResponse
 
 }
