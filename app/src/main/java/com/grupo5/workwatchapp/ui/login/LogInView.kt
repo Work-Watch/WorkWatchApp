@@ -2,7 +2,10 @@ package com.grupo5.workwatchapp.ui.login
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -38,9 +41,19 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupo5.workwatchapp.R
 import com.grupo5.workwatchapp.RetrofitApplication
 import com.grupo5.workwatchapp.ui.bossinterfaces.BossUI
+import com.grupo5.workwatchapp.ui.recovery.Recovery
 import com.grupo5.workwatchapp.ui.recovery.RecoveryAccount
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
+
+class LogInView : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            LogInView()
+        }
+    }
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogInView(viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)){
