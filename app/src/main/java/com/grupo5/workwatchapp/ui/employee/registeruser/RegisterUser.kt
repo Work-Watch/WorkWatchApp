@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupo5.workwatchapp.R
 import com.grupo5.workwatchapp.ui.bossinterfaces.BossUI
+import com.grupo5.workwatchapp.ui.login.EmailField
+import com.grupo5.workwatchapp.ui.login.LogInView
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 class RegisterUser : ComponentActivity() {
@@ -50,13 +52,6 @@ class RegisterUser : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun EnterDataPreview(){
-    WorkWatchAppTheme {
-        EnterData()
-    }
-}
 
 @Composable
 fun EnterData(modifier: Modifier = Modifier, viewModel: RegisterViewModel = viewModel(factory = RegisterViewModel.Factory)) {
@@ -92,12 +87,12 @@ fun EnterData(modifier: Modifier = Modifier, viewModel: RegisterViewModel = view
         }
 
         NameField(name) { viewModel.onRegisterChanged(it, lastName, phone, email, company, password, confirmPassword) }
-        OutField(lastName) { viewModel.onRegisterChanged(name, it, phone, email, company, password, confirmPassword) }
-        OutField(phone) { viewModel.onRegisterChanged(name, lastName, it, email, company, password, confirmPassword) }
-        OutField(email) { viewModel.onRegisterChanged(name, lastName, phone, it, company, password, confirmPassword) }
-        OutField(company) { viewModel.onRegisterChanged(name, lastName, phone, email, it, password, confirmPassword) }
+        LastnameField(lastName) { viewModel.onRegisterChanged(name, it, phone, email, company, password, confirmPassword) }
+        PhonenumberField(phone) { viewModel.onRegisterChanged(name, lastName, it, email, company, password, confirmPassword) }
+        EmailField(email) { viewModel.onRegisterChanged(name, lastName, phone, it, company, password, confirmPassword) }
+        CompanynameField(company) { viewModel.onRegisterChanged(name, lastName, phone, email, it, password, confirmPassword) }
         PasswordField(password) { viewModel.onRegisterChanged(name, lastName, phone, email, company, it, confirmPassword) }
-        OutField(confirmPassword) { viewModel.onRegisterChanged(name, lastName, phone, email, company, password, it) }
+        ConfirmpasswordField(confirmPassword) { viewModel.onRegisterChanged(name, lastName, phone, email, company, password, it) }
 
         /*OutlinedTextField(value = lastName, onValueChange = { },
             label = { Text(text = stringResource(id = R.string.last_name))},
@@ -285,6 +280,53 @@ fun NameField(name: String, onTextFieldChanged: (String) -> Unit) {
 }
 
 @Composable
+fun LastnameField(lastName: String, onTextFieldChanged: (String) -> Unit){
+    Box(Modifier.padding(8.dp)) {
+        OutlinedTextField(
+            value = lastName,
+            onValueChange = { onTextFieldChanged(it) },
+            label = { Text(text = "Last name")}
+        )
+    }
+}
+
+@Composable
+fun PhonenumberField(phone:String, onTextFieldChanged: (String) -> Unit){
+    Box(Modifier.padding(8.dp)) {
+        OutlinedTextField(
+            value = phone,
+            onValueChange = {onTextFieldChanged(it) },
+            label = {Text("Phone Number")}
+        )
+    }
+}
+
+
+@Composable
+fun EmailField(email:String, onTextFieldChanged: (String) -> Unit){
+    Box(Modifier.padding(8.dp)) {
+        OutlinedTextField(
+            value = email,
+            onValueChange = {onTextFieldChanged(it) },
+            label = {Text("Email")}
+        )
+    }
+}
+
+@Composable
+fun CompanynameField(company:String, onTextFieldChanged: (String) -> Unit){
+    Box(Modifier.padding(8.dp)) {
+        OutlinedTextField(
+            value = company,
+            onValueChange = {onTextFieldChanged(it) },
+            label = {Text("Company Name")}
+        )
+    }
+}
+
+
+
+@Composable
 fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
 
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -313,3 +355,34 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
         )
     }
 }
+
+@Composable
+fun ConfirmpasswordField(confirmPassword: String, onTextFieldChanged: (String) -> Unit) {
+
+    var isConfirmPasswordVisible by remember { mutableStateOf(false) }
+
+    Box(Modifier.padding(8.dp)) {
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = { onTextFieldChanged(it) },
+            label = { Text("Confirm password") },
+            visualTransformation =
+            if (isConfirmPasswordVisible)
+                VisualTransformation.None
+            else
+                PasswordVisualTransformation(),
+
+            trailingIcon = {
+                Icon(painter =
+                if (isConfirmPasswordVisible)
+                    painterResource(id = R.drawable.visibility_on)
+                else
+                    painterResource(id = R.drawable.visibility_off),
+                    contentDescription = null,
+                    modifier = Modifier.clickable { isConfirmPasswordVisible = !isConfirmPasswordVisible }
+                )
+            }
+        )
+    }
+}
+
