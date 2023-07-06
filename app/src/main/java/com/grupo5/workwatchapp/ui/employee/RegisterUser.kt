@@ -2,6 +2,7 @@ package com.grupo5.workwatchapp.ui.employee
 
 import android.content.Intent
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -53,48 +54,28 @@ fun EnterDataPreview(){
 @Composable
 fun EnterData(modifier: Modifier = Modifier) {
 
-    var name by remember { mutableStateOf("") }
-    var passwordRepeatValue by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var company by remember { mutableStateOf("") }
-    var passwordValue by remember { mutableStateOf("") }
-    var isPasswordVisible by remember { mutableStateOf(false) }
+    var name by remember {mutableStateOf("")}
+    var passwordRepeatValue by remember {mutableStateOf("")}
+    var phoneNumber by remember {mutableStateOf("")}
+    var lastName by remember {mutableStateOf("")}
+    var email by remember {mutableStateOf("")}
+    var company by remember {mutableStateOf("")}
+    var passwordValue by remember {mutableStateOf("")}
+    var isPasswordVisible by remember {mutableStateOf(false)}
 
 
-
-    val context = LocalContext.current
-
-
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(8.dp),
+    Column(modifier = modifier
+        .verticalScroll(rememberScrollState())
+        .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp)) {
-            IconButton(onClick = {
-                val intent = Intent(context, LogInView::class.java)
-                context.startActivity(intent)
-
-            },modifier = Modifier.padding(start = 12.dp)
-            ) {
-                Icon(
-                    Icons.Rounded.ArrowBack,
-                    contentDescription = "",
-                    modifier = Modifier.size(46.dp)
-                )
-            }
+        Box(modifier = Modifier.padding(top = 10.dp)) {
 
             Text(
                 text = stringResource(id = R.string.create_account),
-                modifier = Modifier.padding(start = 32.dp),
                 style =
-                TextStyle(
+                TextStyle (
                     fontSize = 30.sp
                 ),
                 color = colorResource(id = R.color.aqua_clear_custom),
@@ -264,8 +245,20 @@ fun EnterData(modifier: Modifier = Modifier) {
             }
         )
 
-        Row(modifier = modifier.padding(6.dp))
+        Row(modifier = modifier.padding(16.dp))
         {
+            Button(onClick = { /*TODO*/ },
+                colors = ButtonDefaults.buttonColors(colorResource(id = R.color.red_cherry_custom)),
+                modifier = Modifier
+                    .padding(
+                        top = dimensionResource(id = R.dimen.common_padding_default),
+                        start = dimensionResource(id = R.dimen.common_padding_default),
+                        end = dimensionResource(id = R.dimen.common_padding_default)
+                    )
+            ){
+                Text(text = "Cancel")
+            }
+
             Button(onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(colorResource(id = R.color.aqua_dark_custom)),
                 modifier = Modifier
@@ -278,5 +271,6 @@ fun EnterData(modifier: Modifier = Modifier) {
                 Text(text = "Register")
             }
         }
+
     }
 }
