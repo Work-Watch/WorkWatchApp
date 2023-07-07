@@ -1,22 +1,27 @@
 package com.grupo5.workwatchapp.ui.employee.registeruser
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -37,9 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupo5.workwatchapp.R
+import com.grupo5.workwatchapp.ui.bossinterfaces.BossHomeView
 import com.grupo5.workwatchapp.ui.bossinterfaces.BossUI
-import com.grupo5.workwatchapp.ui.login.EmailField
-import com.grupo5.workwatchapp.ui.login.LogInView
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 class RegisterUser : ComponentActivity() {
@@ -47,16 +51,24 @@ class RegisterUser : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            EnterData()
+            EnterDataPre()
         }
     }
 }
-
-
+@Preview(showSystemUi = true)
 @Composable
-fun EnterData(modifier: Modifier = Modifier, viewModel: RegisterViewModel = viewModel(factory = RegisterViewModel.Factory)) {
+fun EnterDataPre(modifier: Modifier = Modifier){
+    WorkWatchAppTheme {
+        EnterData()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EnterData(viewModel: RegisterViewModel = viewModel(factory = RegisterViewModel.Factory)) {
 
     val context = LocalContext.current
+    val status by viewModel.status.observeAsState()
 
     val name: String by  viewModel.name.observeAsState(initial = "")
     val confirmPassword: String by  viewModel.confirmPassword.observeAsState(initial = "")
@@ -65,10 +77,11 @@ fun EnterData(modifier: Modifier = Modifier, viewModel: RegisterViewModel = view
     val email: String by  viewModel.email.observeAsState(initial = "")
     val company: String by  viewModel.company.observeAsState(initial = "")
     val password: String by  viewModel.password.observeAsState(initial = "")
-    //var isPasswordVisible by remember {mutableStateOf(false)}
+    val idRol by viewModel.idRol.observeAsState(initial = 1)
 
 
-    Column(modifier = modifier
+    Column(modifier = Modifier
+        .fillMaxWidth()
         .verticalScroll(rememberScrollState())
         .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -86,159 +99,19 @@ fun EnterData(modifier: Modifier = Modifier, viewModel: RegisterViewModel = view
             )
         }
 
-        NameField(name) { viewModel.onRegisterChanged(it, lastName, phone, email, company, password, confirmPassword) }
-        LastnameField(lastName) { viewModel.onRegisterChanged(name, it, phone, email, company, password, confirmPassword) }
-        PhonenumberField(phone) { viewModel.onRegisterChanged(name, lastName, it, email, company, password, confirmPassword) }
-        EmailField(email) { viewModel.onRegisterChanged(name, lastName, phone, it, company, password, confirmPassword) }
-        CompanynameField(company) { viewModel.onRegisterChanged(name, lastName, phone, email, it, password, confirmPassword) }
-        PasswordField(password) { viewModel.onRegisterChanged(name, lastName, phone, email, company, it, confirmPassword) }
-        ConfirmpasswordField(confirmPassword) { viewModel.onRegisterChanged(name, lastName, phone, email, company, password, it) }
+        NameField(name) { viewModel.onRegisterChanged(it, lastName, phone, email, company, password, confirmPassword, idRol) }
+        LastnameField(lastName) { viewModel.onRegisterChanged(name, it, phone, email, company, password, confirmPassword, idRol) }
+        PhonenumberField(phone) { viewModel.onRegisterChanged(name, lastName, it, email, company, password, confirmPassword, idRol) }
+        EmailField(email) { viewModel.onRegisterChanged(name, lastName, phone, it, company, password, confirmPassword, idRol) }
+        CompanynameField(company) { viewModel.onRegisterChanged(name, lastName, phone, email, it, password, confirmPassword, idRol) }
+        PasswordField(password) { viewModel.onRegisterChanged(name, lastName, phone, email, company, it, confirmPassword, idRol) }
+        ConfirmpasswordField(confirmPassword) { viewModel.onRegisterChanged(name, lastName, phone, email, company, password, it, idRol) }
 
-        /*OutlinedTextField(value = lastName, onValueChange = { },
-            label = { Text(text = stringResource(id = R.string.last_name))},
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = dimensionResource(id = R.dimen.common_padding_default),
-                    start = dimensionResource(id = R.dimen.common_padding_default),
-                    end = dimensionResource(id = R.dimen.common_padding_default)
-                ),
-
-            trailingIcon = {
-                if(lastName.isNotEmpty()){
-                    Icon(imageVector = Icons.Filled.Clear, contentDescription = "Clean",
-                        modifier = Modifier
-                            .clickable {  }
-                    )
-                }
-            }
-        )
-
-        OutlinedTextField(value = phone, onValueChange = {},
-            label = { Text(text = stringResource(id = R.string.phone_number))},
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = dimensionResource(id = R.dimen.common_padding_default),
-                    start = dimensionResource(id = R.dimen.common_padding_default),
-                    end = dimensionResource(id = R.dimen.common_padding_default)
-                ),
-
-            trailingIcon = {
-                if(phone.isNotEmpty()){
-                    Icon(imageVector = Icons.Filled.Clear, contentDescription = "Clean",
-                        modifier = Modifier
-                            .clickable { }
-                    )
-                }
-            }
-        )
-
-        OutlinedTextField(value = email, onValueChange = {},
-            label = { Text(text = stringResource(id = R.string.enter_email))},
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = dimensionResource(id = R.dimen.common_padding_default),
-                    start = dimensionResource(id = R.dimen.common_padding_default),
-                    end = dimensionResource(id = R.dimen.common_padding_default)
-                ),
-
-            trailingIcon = {
-                if(email.isNotEmpty()){
-                    Icon(imageVector = Icons.Filled.Clear, contentDescription = "Clean",
-                        modifier = Modifier
-                            .clickable {  }
-                    )
-                }
-            }
-        )
-
-        OutlinedTextField(value = company, onValueChange = {},
-            label = { Text(text = stringResource(id = R.string.enter_prise_name))},
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = dimensionResource(id = R.dimen.common_padding_default),
-                    start = dimensionResource(id = R.dimen.common_padding_default),
-                    end = dimensionResource(id = R.dimen.common_padding_default)
-                ),
-
-            trailingIcon = {
-                if(company.isNotEmpty()){
-                    Icon(imageVector = Icons.Filled.Clear, contentDescription = "Clean",
-                        modifier = Modifier
-                            .clickable { }
-                    )
-                }
-            }
-        )
-
-        OutlinedTextField(value = password, onValueChange = {},
-            label = { Text(text = stringResource(id = R.string.password))},
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = dimensionResource(id = R.dimen.common_padding_default),
-                    start = dimensionResource(id = R.dimen.common_padding_default),
-                    end = dimensionResource(id = R.dimen.common_padding_default)
-                ),
-            visualTransformation =
-            if (isPasswordVisible)
-                VisualTransformation.None
-            else
-                PasswordVisualTransformation(),
-
-            trailingIcon = {
-                Icon(painter =
-                if (isPasswordVisible)
-                    painterResource(id = R.drawable.visibility_on)
-                else
-                    painterResource(id = R.drawable.visibility_off),
-                    contentDescription = null,
-                    modifier = Modifier.clickable { isPasswordVisible = !isPasswordVisible }
-                )
-            }
-        )
-
-
-        OutlinedTextField(value = confirmPassword, onValueChange = {},
-            label = { Text(text = stringResource(id = R.string.repeat_password))},
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = dimensionResource(id = R.dimen.common_padding_default),
-                    start = dimensionResource(id = R.dimen.common_padding_default),
-                    end = dimensionResource(id = R.dimen.common_padding_default)
-                ),
-
-            visualTransformation =
-            if (isPasswordVisible)
-                VisualTransformation.None
-            else
-                PasswordVisualTransformation(),
-
-            trailingIcon = {
-                Icon(painter =
-                if (isPasswordVisible)
-                    painterResource(id = R.drawable.visibility_on)
-                else
-                    painterResource(id = R.drawable.visibility_off),
-                    contentDescription = null,
-                    modifier = Modifier.clickable { isPasswordVisible = !isPasswordVisible }
-                )
-            }
-        )*/
-
-        Row(modifier = modifier.padding(16.dp))
+        Row(modifier = Modifier.padding(16.dp))
         {
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = {
+                (context as? Activity)?.finish()
+            },
                 colors = ButtonDefaults.buttonColors(colorResource(id = R.color.red_cherry_custom)),
                 modifier = Modifier
                     .padding(
@@ -251,8 +124,12 @@ fun EnterData(modifier: Modifier = Modifier, viewModel: RegisterViewModel = view
             }
 
             Button(onClick = {
-                val intent = Intent(context, BossUI::class.java)
-                context.startActivity(intent)
+
+                if (!viewModel.validateData()) {
+                    Toast.makeText(context, "Empty fields", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.onRegister()
+                }
             },
                 colors = ButtonDefaults.buttonColors(colorResource(id = R.color.aqua_dark_custom)),
                 modifier = Modifier
@@ -263,6 +140,29 @@ fun EnterData(modifier: Modifier = Modifier, viewModel: RegisterViewModel = view
                     )
             ){
                 Text(text = "Register")
+            }
+        }
+    }
+
+    LaunchedEffect(status) {
+        status?.let { status ->
+            when (status) {
+                is RegisterUiStates.Error -> {
+                    Toast.makeText(context, "An error has occurred", Toast.LENGTH_SHORT).show()
+                    viewModel.clearStatus()
+                }
+                is RegisterUiStates.ErrorWithMessage -> {
+                    Toast.makeText(context, status.message, Toast.LENGTH_SHORT).show()
+                    viewModel.clearStatus()
+                }
+                is RegisterUiStates.Success -> {
+                    viewModel.clearStatus()
+                    val intent = Intent(context, BossUI::class.java)
+                    context.startActivity(intent)
+                    (context as? Activity)?.finish()
+                }
+
+                else -> {}
             }
         }
     }
@@ -301,7 +201,6 @@ fun PhonenumberField(phone:String, onTextFieldChanged: (String) -> Unit){
     }
 }
 
-
 @Composable
 fun EmailField(email:String, onTextFieldChanged: (String) -> Unit){
     Box(Modifier.padding(8.dp)) {
@@ -323,8 +222,6 @@ fun CompanynameField(company:String, onTextFieldChanged: (String) -> Unit){
         )
     }
 }
-
-
 
 @Composable
 fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
@@ -385,4 +282,5 @@ fun ConfirmpasswordField(confirmPassword: String, onTextFieldChanged: (String) -
         )
     }
 }
+
 

@@ -10,9 +10,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.grupo5.workwatchapp.RetrofitApplication
 import com.grupo5.workwatchapp.network.ApiResponse
 import com.grupo5.workwatchapp.repository.AuthRepository
-import com.grupo5.workwatchapp.ui.login.LoginUiStatus
-import com.grupo5.workwatchapp.ui.login.LoginViewModel
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class RegisterViewModel(private val repository: AuthRepository): ViewModel() {
 
@@ -23,6 +22,7 @@ class RegisterViewModel(private val repository: AuthRepository): ViewModel() {
     private val _company = MutableLiveData<String>()
     private val _password = MutableLiveData<String>()
     private val _confirmPassword = MutableLiveData<String>()
+    private val _idRol = MutableLiveData<Int>()
 
     val name : LiveData<String> = _name
     val lastName : LiveData<String> = _lastName
@@ -31,6 +31,7 @@ class RegisterViewModel(private val repository: AuthRepository): ViewModel() {
     val company : LiveData<String> = _company
     val password : LiveData<String> = _password
     val confirmPassword : LiveData<String> = _confirmPassword
+    val idRol : LiveData<Int> = _idRol
 
     private val _status = MutableLiveData<RegisterUiStates>(RegisterUiStates.Resume)
 
@@ -38,7 +39,7 @@ class RegisterViewModel(private val repository: AuthRepository): ViewModel() {
         get() = _status
 
     fun onRegisterChanged(
-        name: String, lastName: String, phone: String, email: String, company: String, password: String, confirmPassword: String
+        name: String, lastName: String, phone: String, email: String, company: String, password: String, confirmPassword: String, idRol: Int
     ){
         _name.value = name
         _lastName.value = lastName
@@ -47,15 +48,16 @@ class RegisterViewModel(private val repository: AuthRepository): ViewModel() {
         _company.value = company
         _password.value = password
         _confirmPassword.value = confirmPassword
+        _idRol.value = idRol
     }
 
     private fun register(
-        name: String, lastName: String, phone: String, email: String, company: String, password: String, confirmPassword: String
+        name: String, lastName: String, phone: String, email: String, company: String, password: String, confirmPassword: String, idRol: Int
     ) {
 
         viewModelScope.launch {
             _status.postValue(
-                when ( val response = repository.register(name, lastName, phone, email, company, password, confirmPassword)) {
+                when ( val response = repository.register(name, lastName, phone, email, company, password, confirmPassword, idRol)) {
                     is ApiResponse.Error -> RegisterUiStates.Error(response.exception)
                     is ApiResponse.ErrorWithMessage -> RegisterUiStates.ErrorWithMessage(response.message)
                     is ApiResponse.Success -> RegisterUiStates.Success(response.data)
@@ -64,11 +66,35 @@ class RegisterViewModel(private val repository: AuthRepository): ViewModel() {
         }
     }
 
+    fun onRegister() {
+
+        register(name.value!!, lastName.value!!, phone.value!!, email.value!!, company.value!!, password.value!!, confirmPassword.value!!, 1)
+
+    }
+
+    fun validateData(): Boolean {
+        when {
+            name.value.isNullOrEmpty() -> return false
+            lastName.value.isNullOrEmpty() -> return false
+            phone.value.isNullOrEmpty() -> return false
+            email.value.isNullOrEmpty() -> return false
+            company.value.isNullOrEmpty() -> return false
+            password.value.isNullOrEmpty() -> return false
+            confirmPassword.value.isNullOrEmpty() -> return false
+        }
+        return true
+    }
+
+    fun clearStatus() {
+        _status.value = RegisterUiStates.Resume
+    }
+
+
     companion object {
         val Factory = viewModelFactory {
             initializer {
                 val app = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as RetrofitApplication
-                LoginViewModel(app.authRepository)
+                RegisterViewModel(app.authRepository)
             }
         }
     }
