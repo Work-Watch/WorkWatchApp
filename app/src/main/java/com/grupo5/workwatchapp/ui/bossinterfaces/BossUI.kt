@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
@@ -46,7 +47,10 @@ class BossUI : ComponentActivity() {
 fun BossHomeView() {
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = {BottomBar(navController = navController)}
+        bottomBar = {BottomBar(navController = navController,
+            )},
+        contentColor = Color.White
+
     ) {contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)){
         BottomNavGraph(navController = navController)
@@ -95,7 +99,7 @@ fun BottomBar(navController: NavHostController){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomNavigation(modifier = Modifier) {
+    BottomNavigation(modifier = Modifier, backgroundColor = Color(0xFF018786)) {
         screens.forEach{screen ->
             AddItem(
                 screen = screen,

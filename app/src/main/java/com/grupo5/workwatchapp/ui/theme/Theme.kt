@@ -17,13 +17,13 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = Green,
-    secondary = PurpleGrey80,
+    secondary = Green,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Green,
-    secondary = PurpleGrey40,
+    secondary = Green,
     tertiary = Pink40
 
     /* Other default colors to override

@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupo5.workwatchapp.R
-import com.grupo5.workwatchapp.ui.bossinterfaces.BossHomeView
 import com.grupo5.workwatchapp.ui.bossinterfaces.BossUI
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
