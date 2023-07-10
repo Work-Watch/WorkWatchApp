@@ -20,7 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -30,6 +32,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.grupo5.workwatchapp.R
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 class BossUI : ComponentActivity() {
@@ -46,7 +49,10 @@ class BossUI : ComponentActivity() {
 fun BossHomeView() {
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = {BottomBar(navController = navController)}
+        bottomBar = {
+            BottomBar(navController = navController)
+        }, contentColor = Color.White
+
     ) {contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)){
         BottomNavGraph(navController = navController)
@@ -95,7 +101,7 @@ fun BottomBar(navController: NavHostController){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomNavigation(modifier = Modifier) {
+    BottomNavigation(modifier = Modifier, backgroundColor = colorResource(id = R.color.teal_700)) {
         screens.forEach{screen ->
             AddItem(
                 screen = screen,

@@ -333,5 +333,3 @@ fun ConfirmpasswordField(confirmPassword: String, onTextFieldChanged: (String) -
         )
     }
 }
-
-

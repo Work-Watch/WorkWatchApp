@@ -4,10 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.grupo5.workwatchapp.ui.bossinterfaces.BottomBarScreen
 import com.grupo5.workwatchapp.ui.bossinterfaces.map.MapScreen
-
-import com.grupo5.workwatchapp.ui.bossinterfaces.map.MyMapView
 import com.grupo5.workwatchapp.ui.bossinterfaces.task.BossTasksView
 import com.grupo5.workwatchapp.ui.bossinterfaces.timeline.TimelineScreen
 
