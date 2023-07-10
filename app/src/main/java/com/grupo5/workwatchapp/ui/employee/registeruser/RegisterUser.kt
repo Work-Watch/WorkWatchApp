@@ -14,6 +14,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -173,6 +183,12 @@ fun NameField(name: String, onTextFieldChanged: (String) -> Unit) {
         OutlinedTextField(
             value = name,
             onValueChange = { onTextFieldChanged(it) },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Person,
+                    contentDescription = null
+                )
+            },
             label = { Text("Name") }
         )
     }
@@ -184,6 +200,12 @@ fun LastnameField(lastName: String, onTextFieldChanged: (String) -> Unit){
         OutlinedTextField(
             value = lastName,
             onValueChange = { onTextFieldChanged(it) },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Person,
+                    contentDescription = null
+                )
+            },
             label = { Text(text = "Last name")}
         )
     }
@@ -195,6 +217,12 @@ fun PhonenumberField(phone:String, onTextFieldChanged: (String) -> Unit){
         OutlinedTextField(
             value = phone,
             onValueChange = {onTextFieldChanged(it) },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Phone,
+                    contentDescription = null
+                )
+            },
             label = {Text("Phone Number")}
         )
     }
@@ -206,6 +234,12 @@ fun EmailField(email:String, onTextFieldChanged: (String) -> Unit){
         OutlinedTextField(
             value = email,
             onValueChange = {onTextFieldChanged(it) },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Email,
+                    contentDescription = null
+                )
+            },
             label = {Text("Email")}
         )
     }
@@ -217,6 +251,12 @@ fun CompanynameField(company:String, onTextFieldChanged: (String) -> Unit){
         OutlinedTextField(
             value = company,
             onValueChange = {onTextFieldChanged(it) },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Home,
+                    contentDescription = null
+                )
+            },
             label = {Text("Company Name")}
         )
     }
@@ -231,6 +271,12 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
         OutlinedTextField(
             value = password,
             onValueChange = { onTextFieldChanged(it) },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Lock,
+                    contentDescription = null
+                )
+            },
             label = { Text("Password") },
             visualTransformation =
             if (isPasswordVisible)
@@ -261,6 +307,12 @@ fun ConfirmpasswordField(confirmPassword: String, onTextFieldChanged: (String) -
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { onTextFieldChanged(it) },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Lock,
+                    contentDescription = null
+                )
+            },
             label = { Text("Confirm password") },
             visualTransformation =
             if (isConfirmPasswordVisible)

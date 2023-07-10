@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -93,13 +97,19 @@ fun LogInView(viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Fac
 
 @Composable
 fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
-    Box(Modifier.padding(8.dp)) {
-        OutlinedTextField(
-            value = email,
-            onValueChange = { onTextFieldChanged(it) },
-            label = { Text("Email") }
-        )
-    }
+    OutlinedTextField(
+        value = email,
+        onValueChange = { onTextFieldChanged(it) },
+        label = { Text("Email") },
+        leadingIcon = {
+            Icon(
+                Icons.Default.Email,
+                contentDescription = null
+            )
+        },
+        modifier = Modifier.padding(8.dp),
+        visualTransformation = VisualTransformation.None
+    )
 }
 
 @Composable
@@ -112,6 +122,12 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
             value = password,
             onValueChange = { onTextFieldChanged(it) },
             label = { Text("Password") },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Lock,
+                    contentDescription = null
+                )
+            },
             visualTransformation =
             if (isPasswordVisible)
                 VisualTransformation.None

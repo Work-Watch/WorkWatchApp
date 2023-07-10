@@ -67,12 +67,12 @@ class NewTaskScreen : ComponentActivity() {
                             Modifier
                                 .padding(16.dp)
                                 .size(32.dp),
-                            tint = androidx.compose.ui.graphics.Color.White
+                            tint = Color.White
                         )
                         Box(Modifier.padding(16.dp)){
                             Text(text = "Add Task",
                                 fontSize = 46.sp,
-                                color = androidx.compose.ui.graphics.Color.White
+                                color = Color.White
                             )
                         }
                     }
@@ -101,7 +101,7 @@ class NewTaskScreen : ComponentActivity() {
                                 .fillMaxWidth()
                                 .height(180.dp)
                                 .padding(16.dp)
-                                .background(androidx.compose.ui.graphics.Color.LightGray)
+                                .background(Color.LightGray)
                             /*.border(
                                 width = 1.dp,
                                 color = Color.Transparent)*/
