@@ -44,6 +44,7 @@
         <activity android:name=".ui.recovery.RecoveryAccount" />
         <activity android:name=".ui.login.LogInView" />
         <activity android:name=".ui.employee.registeruser.RegisterUser" />
+        <activity android:name=".ui.bossinterfaces.task.NewTaskScreen" />
 
     </application>
 

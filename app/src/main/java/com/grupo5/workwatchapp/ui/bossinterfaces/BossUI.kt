@@ -2,6 +2,7 @@ package com.grupo5.workwatchapp.ui.bossinterfaces
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
@@ -39,8 +40,21 @@ class BossUI : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BossHomeView()
+            WorkWatchAppTheme {
+                BossHomeView()
+            }
         }
+    }
+
+    private var pressedTime: Long = 0
+    override fun onBackPressed() {
+                if (pressedTime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed()
+            finish()
+        } else {
+            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        pressedTime = System.currentTimeMillis();
     }
 }
 
