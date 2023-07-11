@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import okhttp3.logging.HttpLoggingInterceptor
 
-const val BASE_URL = "https://workwatch.live/"
+const val BASE_URL = "https://workwatch.live/api/"
 
 object RetrofitInstance {
 
