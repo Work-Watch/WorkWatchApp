@@ -17,11 +17,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupo5.workwatchapp.R
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 @Composable
-fun BossTasksView() {
+fun BossTasksView(viewModel: TaskViewModel = viewModel(factory = TaskViewModel.Factory)) {
     val context = LocalContext.current
 
     Column(Modifier.padding(16.dp)) {
@@ -52,14 +53,31 @@ fun BossTasksView() {
             }
         }
 
-        /* TODO("Implemetar la equivalencia de recycleview
-            en compose para usar "taskCardView()" de manera
-            recursiva") */
 
-        // TaskCardView()
     }
 }
 
+/*
+@Composable
+fun PokemonListScreen() {
+    val viewModel: TaskViewModel = viewModel(factory = TaskViewModel.Factory)
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        item {
+            Text(
+                "Task",
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+        items(viewModel.state.value) { pokemon ->
+            CardPreview(pokemon = pokemon) { name ->
+                viewModel.toggleFavorite(name)
+            }
+        }
+    }
+}
+*/
 
 @Preview(showSystemUi = true)
 @Composable
