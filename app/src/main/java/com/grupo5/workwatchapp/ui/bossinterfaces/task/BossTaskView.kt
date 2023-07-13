@@ -1,10 +1,13 @@
 package com.grupo5.workwatchapp.ui.bossinterfaces.task
 
+import kotlin.collections.forEach
 import android.content.Intent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -53,31 +56,20 @@ fun BossTasksView(viewModel: TaskViewModel = viewModel(factory = TaskViewModel.F
             }
         }
 
+        viewModel.onTask()
 
-    }
-}
-
-/*
-@Composable
-fun PokemonListScreen() {
-    val viewModel: TaskViewModel = viewModel(factory = TaskViewModel.Factory)
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        item {
-            Text(
-                "Task",
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
-        items(viewModel.state.value) { pokemon ->
-            CardPreview(pokemon = pokemon) { name ->
-                viewModel.toggleFavorite(name)
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(viewModel.state.value) { taskListResponse ->
+                taskListResponse.body?.forEach { task ->
+                    TaskCardView(task = task)
+                }
             }
         }
+
     }
 }
-*/
 
 @Preview(showSystemUi = true)
 @Composable

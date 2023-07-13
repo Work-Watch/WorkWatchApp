@@ -21,24 +21,20 @@ class TaskViewModel(private val repository: TaskRepository, private val token: S
     val status: MutableLiveData<TaskUiStates>
         get() = _status
 
+    val state = mutableStateOf<List<TaskListResponse>>(emptyList())
 
     private fun taskList() {
         viewModelScope.launch {
-            _status.postValue(
-                when ( val response = repository.task(token)) {
-                    is ApiResponse.Error -> TaskUiStates.Error(response.exception)
-                    is ApiResponse.ErrorWithMessage -> TaskUiStates.ErrorWithMessage(response.message)
-                    is ApiResponse.Success -> {
-                        Log.d("TASK", response.data)
-                        TaskUiStates.Success(response.data)
-                    }
-
-                }
-            )
+            val response = repository.taskList(token)
+            val taskListResponse = response.body()?.let {
+                listOf(it)
+            } ?: emptyList()
+            state.value = taskListResponse
+            Log.d("TASK2", taskListResponse.toString())
         }
     }
 
-    fun onTaskList(){
+    fun onTask(){
         taskList()
     }
 

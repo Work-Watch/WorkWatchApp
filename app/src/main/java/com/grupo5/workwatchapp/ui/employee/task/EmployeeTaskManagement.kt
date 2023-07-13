@@ -46,11 +46,7 @@ fun EmployeeTasksView(){
         }
 
 
-        /* TODO("Implemetar la equivalencia de recycleview
-            en compose para usar "taskCardView()" de manera
-            recursiva") */
-        
-        TaskCardView()
+
 
     }
 
