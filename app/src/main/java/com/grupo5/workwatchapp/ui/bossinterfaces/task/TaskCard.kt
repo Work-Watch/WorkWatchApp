@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
@@ -35,10 +36,11 @@ fun TaskCardView(task: TaskRequest) {
         Card(
             Modifier
                 .fillMaxWidth()
+                .background(color = Color.LightGray, shape = RoundedCornerShape(16.dp))
                 ) {
             // Card content
-            Column(modifier = Modifier
-                .background(color = Color.LightGray)) {
+            Column(
+                ) {
 
                 Icon(
                     imageVector = Icons.Filled.Close,

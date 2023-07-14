@@ -37,7 +37,7 @@ fun BossTasksView(viewModel: TaskViewModel = viewModel(factory = TaskViewModel.F
             Text(
                 text = "Task",
                 fontSize = 48.sp,
-                color = Color.Black
+                color = Color(color = 0XFF018786)
             )
         }
         Box(
@@ -46,7 +46,7 @@ fun BossTasksView(viewModel: TaskViewModel = viewModel(factory = TaskViewModel.F
         ) {
             Button(
                 onClick = {
-                    val intent = Intent(context, NewTaskScreen::class.java)
+                    val intent = Intent(context, NewTasks::class.java)
                     context.startActivity(intent)
                 },
                 modifier = Modifier.fillMaxWidth(),
