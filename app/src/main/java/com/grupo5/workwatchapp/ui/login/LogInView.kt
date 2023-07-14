@@ -2,18 +2,21 @@ package com.grupo5.workwatchapp.ui.login
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,27 +36,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupo5.workwatchapp.R
 import com.grupo5.workwatchapp.RetrofitApplication
 import com.grupo5.workwatchapp.ui.bossinterfaces.BossUI
-import com.grupo5.workwatchapp.ui.recovery.Recovery
+import com.grupo5.workwatchapp.ui.employee.registeruser.RegisterUser
 import com.grupo5.workwatchapp.ui.recovery.RecoveryAccount
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
-
-class LogInView : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            LogInView()
-        }
-    }
-}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogInView(viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)){
@@ -81,7 +77,8 @@ fun LogInView(viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Fac
                 onClick = {
                     val intent = Intent(context, RecoveryAccount::class.java)
                     context.startActivity(intent)
-                }
+                },
+                style = TextStyle(colorResource(id = R.color.aqua_dark_custom))
             )
         }
 
@@ -89,9 +86,13 @@ fun LogInView(viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Fac
 
         Row() {
             Text(text = "Don't have an account?")
-            Text(
-                text = " Sign Up",
-                color = colorResource(id = R.color.red_cherry_custom)
+            ClickableText(
+                text = AnnotatedString(" Sign Up"),
+                onClick = {
+                    val intent = Intent(context, RegisterUser::class.java)
+                    context.startActivity(intent)
+                },
+                style = TextStyle(colorResource(id = R.color.red_cherry_custom))
             )
         }
     }
@@ -99,13 +100,19 @@ fun LogInView(viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Fac
 
 @Composable
 fun EmailField(email: String, onTextFieldChanged: (String) -> Unit) {
-    Box(Modifier.padding(8.dp)) {
-        OutlinedTextField(
-            value = email,
-            onValueChange = { onTextFieldChanged(it) },
-            label = { Text("Email") }
-        )
-    }
+    OutlinedTextField(
+        value = email,
+        onValueChange = { onTextFieldChanged(it) },
+        label = { Text("Email") },
+        leadingIcon = {
+            Icon(
+                Icons.Default.Email,
+                contentDescription = null
+            )
+        },
+        modifier = Modifier.padding(8.dp),
+        visualTransformation = VisualTransformation.None
+    )
 }
 
 @Composable
@@ -118,6 +125,12 @@ fun PasswordField(password: String, onTextFieldChanged: (String) -> Unit) {
             value = password,
             onValueChange = { onTextFieldChanged(it) },
             label = { Text("Password") },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Lock,
+                    contentDescription = null
+                )
+            },
             visualTransformation =
             if (isPasswordVisible)
                 VisualTransformation.None

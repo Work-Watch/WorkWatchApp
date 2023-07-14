@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.grupo5.workwatchapp.ui.bossinterfaces.BossHomeView
+import com.grupo5.workwatchapp.ui.login.LogInPreview
+import com.grupo5.workwatchapp.ui.login.LogInView
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainView()
+                    LogInView()
                 }
             }
         }

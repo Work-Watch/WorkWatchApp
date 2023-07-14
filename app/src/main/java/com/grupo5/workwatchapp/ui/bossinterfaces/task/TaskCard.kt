@@ -21,16 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.grupo5.workwatchapp.network.dto.task.TaskListResponse
+import com.grupo5.workwatchapp.network.dto.task.TaskRequest
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 
 // This is the component for each team task card
 @Composable
-fun TaskCardView() {
+fun TaskCardView(task: TaskRequest) {
     Box(modifier = Modifier
         .fillMaxWidth()
-        .padding(16.dp)
-        .wrapContentSize()){
+        .padding(16.dp)){
         Card(
             Modifier
                 .fillMaxWidth()
@@ -38,6 +39,7 @@ fun TaskCardView() {
             // Card content
             Column(modifier = Modifier
                 .background(color = Color.LightGray)) {
+
                 Icon(
                     imageVector = Icons.Filled.Close,
                     contentDescription = "Localized description",
@@ -49,7 +51,7 @@ fun TaskCardView() {
                         Modifier.padding(8.dp)
                     )
                     Text(
-                        text = "Description of the task",
+                        text = task.task,
                         Modifier.padding(8.dp)
                     )
                 }
@@ -59,7 +61,7 @@ fun TaskCardView() {
                         Modifier.padding(8.dp)
                     )
                     Text(
-                        text = "Team ID",
+                        text = task.idTeam.toString(),
                         Modifier.padding(8.dp)
                     )
                 }
@@ -69,20 +71,11 @@ fun TaskCardView() {
                         Modifier.padding(8.dp)
                     )
                     Text(
-                        text = "Address of the place",
+                        text = "${task.longitude}, ${task.latitude}",
                         Modifier.padding(8.dp)
                     )
                 }
-                Row {
-                    Text(
-                        text = "Status:",
-                        Modifier.padding(8.dp)
-                    )
-                    Text(
-                        text = "Active or inactive",
-                        Modifier.padding(8.dp)
-                    )
-                }
+
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -118,7 +111,15 @@ fun TaskCardView() {
 @Composable
 fun taskCardViewPreview(){
     WorkWatchAppTheme {
-        TaskCardView()
-        
+        val task = TaskRequest(
+            task = "Clean PC",
+            latitude = 22.67832456,
+            longitude = 33.4353445,
+            hourStart = "11",
+            hourFinal = "11",
+            date = "11/04/2023",
+            idTeam = 1
+        )
+        TaskCardView(task = task)
     }
 }

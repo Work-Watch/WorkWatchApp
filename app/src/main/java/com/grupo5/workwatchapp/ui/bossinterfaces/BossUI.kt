@@ -2,6 +2,7 @@ package com.grupo5.workwatchapp.ui.bossinterfaces
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
@@ -20,7 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -30,15 +33,28 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.grupo5.workwatchapp.R
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 class BossUI : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-            BossHomeView()
+            WorkWatchAppTheme {
+                BossHomeView()
+            }
         }
+    }
+
+    private var pressedTime: Long = 0
+    override fun onBackPressed() {
+                if (pressedTime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed()
+            finish()
+        } else {
+            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        pressedTime = System.currentTimeMillis();
     }
 }
 
@@ -47,7 +63,10 @@ class BossUI : ComponentActivity() {
 fun BossHomeView() {
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = {BottomBar(navController = navController)}
+        bottomBar = {
+            BottomBar(navController = navController)
+        }, contentColor = Color.White
+
     ) {contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)){
         BottomNavGraph(navController = navController)
@@ -96,7 +115,7 @@ fun BottomBar(navController: NavHostController){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomNavigation(modifier = Modifier) {
+    BottomNavigation(modifier = Modifier, backgroundColor = colorResource(id = R.color.teal_700)) {
         screens.forEach{screen ->
             AddItem(
                 screen = screen,
