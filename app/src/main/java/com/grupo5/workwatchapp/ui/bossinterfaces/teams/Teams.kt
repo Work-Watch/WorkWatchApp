@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -41,8 +43,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupo5.workwatchapp.R
 import com.grupo5.workwatchapp.network.dto.teams.ExpandableCardItem
+import com.grupo5.workwatchapp.network.dto.teams.TeamRequest
+import com.grupo5.workwatchapp.network.dto.teams.TeamsListResponse
 import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 @Preview(showSystemUi = true)
@@ -54,7 +59,7 @@ fun CardPreview(){
 }
 @Composable
 fun ExpandableCardRow(
-    expandableCardItem: ExpandableCardItem
+    team: TeamRequest
 ) {
     //SearchBar()
 
@@ -70,11 +75,13 @@ fun ExpandableCardRow(
                     .padding(16.dp)
             ) {
                 Column {
-                    Text(text = expandableCardItem.title, style = MaterialTheme.typography.displaySmall)
-                    Text(
-                        text = expandableCardItem.secondaryText,
+                    Text(text = team.name, style = MaterialTheme.typography.displaySmall, color = colorResource(
+                        id = R.color.aqua_dark_custom
+                    ))
+                    /*Text(
+                        text = "name team",
                         style = MaterialTheme.typography.titleLarge
-                    )
+                    )*/
                 }
 
                 ExpandableCardIcon(
@@ -91,7 +98,7 @@ fun ExpandableCardRow(
                 Divider(thickness = Dp.Hairline, modifier = Modifier.padding(horizontal = 16.dp))
 
             Text(
-                text = expandableCardItem.details.moreTxt,
+                text = team.name,
                 modifier = Modifier
                     .height(if (expanded) 56.dp else 0.dp)
                     .padding(16.dp),
@@ -99,7 +106,10 @@ fun ExpandableCardRow(
 
             )
 
-            Row(Modifier.fillMaxWidth().padding(8.dp), horizontalArrangement = Arrangement.End) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp), horizontalArrangement = Arrangement.End) {
                 Icon(
                     imageVector = Icons.Filled.Edit,
                     contentDescription = "Edit task action",
@@ -142,9 +152,9 @@ fun ExpandableCardIcon(
 }
 
 @Composable
-fun SearchBar(modifier: Modifier = Modifier)
+fun SearchBar(viewModel: TeamsViewModel = viewModel(factory = TeamsViewModel.Factory))
 {
-    Column(modifier = modifier.verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = stringResource(id = R.string.teams),
             style = MaterialTheme.typography.titleLarge,
             color = colorResource(id = R.color.aqua_clear_custom)
@@ -177,54 +187,27 @@ fun SearchBar(modifier: Modifier = Modifier)
 
         Spacer(modifier = Modifier.size(30.dp))
 
-        var items = ExpandableCardItem.ItemDetail("detalle")
+        viewModel.onTeams()
 
-        ExpandableCardRow(expandableCardItem = ExpandableCardItem(title = "Messi", secondaryText = "chavalin", items))
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            items(viewModel.state.value){teamsListResponse ->
+                teamsListResponse.body?.forEach { team ->
+                    var items = ExpandableCardItem.ItemDetail("detalle")
+                    ExpandableCardRow(team = team)
+                    //ExpandableCardRow(expandableCardItem = ExpandableCardItem(title = "Messi", secondaryText = "chavalin", items))
+                }
+            }
+        }
+
+
+
+
 
     }
 
 }
-
-
-
-
-/*
-@Composable
-fun CardRow(cardItem: Team) {
-    Card {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(text = cardItem.team, style = MaterialTheme.typography.titleLarge)
-            Text(text = cardItem.description, style = MaterialTheme.typography.labelLarge)
-        }
-    }
-}*/
-
-/*
-@Composable
-fun CardList() {
-    val items = List(5) { index ->
-        val position = index + 1
-        Team(
-            team = "Título $position",
-            description = "Texto secundario $position"
-        )
-    }
-
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(items) { item ->
-            CardRow(
-                cardItem = item
-            )
-        }
-    }
-}*/
 
 
 

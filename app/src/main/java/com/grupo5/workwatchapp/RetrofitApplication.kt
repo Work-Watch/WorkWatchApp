@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import com.grupo5.workwatchapp.network.retrofit.RetrofitInstance
 import com.grupo5.workwatchapp.repository.AuthRepository
 import com.grupo5.workwatchapp.repository.TaskRepository
+import com.grupo5.workwatchapp.repository.TeamsRepository
 
 class RetrofitApplication: Application() {
 
@@ -26,6 +27,10 @@ class RetrofitApplication: Application() {
 
     val taskRepository: TaskRepository by lazy {
         TaskRepository(getAPIService())
+    }
+
+    val teamsRepository: TeamsRepository by lazy {
+        TeamsRepository(getAPIService())
     }
 
     fun saveAuthToken(token: String) {
