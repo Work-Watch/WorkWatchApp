@@ -40,9 +40,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.grupo5.workwatchapp.R
+import com.grupo5.workwatchapp.ui.bossinterfaces.BossHomeView
+import com.grupo5.workwatchapp.ui.theme.WorkWatchAppTheme
 
 class NewTaskScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -172,5 +175,3 @@ class NewTaskScreen : ComponentActivity() {
         }
         }
     }
-
-
