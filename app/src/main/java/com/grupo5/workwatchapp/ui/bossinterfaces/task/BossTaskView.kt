@@ -37,7 +37,7 @@ fun BossTasksView(viewModel: TaskViewModel = viewModel(factory = TaskViewModel.F
             Text(
                 text = "Task",
                 fontSize = 48.sp,
-                color = Color.Black
+                color = Color(color = 0XFF018786)
             )
         }
         Box(
