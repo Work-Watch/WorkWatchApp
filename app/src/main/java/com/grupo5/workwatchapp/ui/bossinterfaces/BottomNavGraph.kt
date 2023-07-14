@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.grupo5.workwatchapp.ui.bossinterfaces.map.MapScreen
 import com.grupo5.workwatchapp.ui.bossinterfaces.task.BossTasksView
+import com.grupo5.workwatchapp.ui.bossinterfaces.teams.SearchBar
 import com.grupo5.workwatchapp.ui.bossinterfaces.timeline.TimelineScreen
 
 @Composable
@@ -21,8 +22,8 @@ fun BottomNavGraph(navController: NavHostController) {
         composable(route = BottomBarScreen.Task.route){
             BossTasksView()
         }
-        composable(route = BottomBarScreen.TimeLine.route){
-            TimelineScreen()
+        composable(route = BottomBarScreen.Teams.route){
+            SearchBar()
         }
         // Agrega más composables para otras pantallas del bottom navigation
     }

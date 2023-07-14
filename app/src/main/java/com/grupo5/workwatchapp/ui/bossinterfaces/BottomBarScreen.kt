@@ -22,9 +22,9 @@ sealed class BottomBarScreen(
         title = "Tasks",
         icon = Icons.Outlined.CheckCircle
     )
-    object TimeLine : BottomBarScreen(
-        route = "timeline",
-        title = "Time line",
+    object Teams : BottomBarScreen(
+        route = "teams",
+        title = "Teams",
         icon = Icons.Default.Person
     )
 }
