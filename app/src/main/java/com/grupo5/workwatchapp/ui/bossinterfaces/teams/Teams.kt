@@ -169,11 +169,7 @@ fun SearchBar(viewModel: TeamsViewModel = viewModel(factory = TeamsViewModel.Fac
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    top = dimensionResource(id = R.dimen.common_padding_default),
-                    start = dimensionResource(id = R.dimen.common_padding_default),
-                    end = dimensionResource(id = R.dimen.common_padding_default)
-                ),
+                .padding(16.dp),
 
             trailingIcon = {
                 if(teams.isNotEmpty()){

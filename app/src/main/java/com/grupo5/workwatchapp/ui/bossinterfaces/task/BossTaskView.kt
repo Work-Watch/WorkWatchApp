@@ -46,7 +46,7 @@ fun BossTasksView(viewModel: TaskViewModel = viewModel(factory = TaskViewModel.F
         ) {
             Button(
                 onClick = {
-                    val intent = Intent(context, NewTaskScreen::class.java)
+                    val intent = Intent(context, NewTasks::class.java)
                     context.startActivity(intent)
                 },
                 modifier = Modifier.fillMaxWidth(),
